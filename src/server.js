@@ -23,5 +23,10 @@ console.log('API server started on: ' + port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var player_routes = require('./routers/player.router'); //importing routers
-player_routes(app); //register the route
+// Declare Path of Routers
+var player_routes = require('./api/player/v1/player.router'); //importing routers
+var player_stat_routes = require('./api/stat/v1/stat.router');
+
+// Register the routes
+player_routes(app); 
+player_stat_routes(app);

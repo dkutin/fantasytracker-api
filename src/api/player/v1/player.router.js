@@ -1,8 +1,8 @@
 'use strict';
 module.exports = function(app) {
-    var player = require('../controllers/player.controller');
+    var player = require('./player.controller');
 
-    // todoList Routes
+    // Player Routes
     app.route('/api/v1/players')
         .get(player.list_all_players)
         .post(player.add_player);

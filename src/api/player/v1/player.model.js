@@ -1,5 +1,5 @@
 'user strict';
-var sql = require('../database.js');
+var sql = require('../../../database.js');
 
 // Player Object Constructor
 var Player = function(player){
@@ -34,9 +34,9 @@ Player.getAllPlayers = function (result) {
         }
     });
 };
-Player.updateById = function(player_id, full_name, team, number, image, position, result){
+Player.updateById = function(playerId, full_name, team, number, image, position, result){
     sql.query("UPDATE player SET full_name = ?, team = ?, number = ?, image = ?, position = ?, number = ? WHERE player_id = ?",
-        [full_name, team, number, image, position, number, player_id], function (err, res) {
+        [full_name, team, number, image, position, number, playerId], function (err, res) {
         if(err) {
             console.log("error: ", err);
             result(null, err);
@@ -46,8 +46,8 @@ Player.updateById = function(player_id, full_name, team, number, image, position
         }
     });
 };
-Player.remove = function(player_id, result){
-    sql.query("DELETE FROM player WHERE player_id = ?", [player_id], function (err, res) {
+Player.remove = function(playerId, result){
+    sql.query("DELETE FROM player WHERE player_id = ?", [playerId], function (err, res) {
         if(err) {
             console.log("error: ", err);
             result(null, err);
@@ -60,7 +60,7 @@ Player.remove = function(player_id, result){
 };
 Player.add = function(player, result){
     sql.query("INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [player.player_id, player.full_name, player.team, player.number, player.image, player.position], function (err, res) {
+        [player.playerId, player.full_name, player.team, player.number, player.image, player.position], function (err, res) {
         if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -71,4 +71,4 @@ Player.add = function(player, result){
     });
 };
 
-module.exports= Player;
+module.exports = Player;
