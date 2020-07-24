@@ -11,7 +11,7 @@ exports.get_player_stats = function(req, res) {
                 res.json({
                     status : 'No Results Found'
                 });
-            else 
+            else
                 res.json({
                     status : 'Success', 
                     response : stats

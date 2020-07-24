@@ -26,7 +26,7 @@ exports.add_player = function(req, res) {
             if (err)
                 res.json(err);
             else
-                res.json({
+                res.status(201).json({
                     status : 'Successfully added', 
                     response : players
                 });
@@ -59,7 +59,7 @@ exports.delete_player = function(req, res) {
     Player.remove(req.params.playerId, function(err, player) {
         if (err)
             res.json(err);
-        else 
+        else
             res.status(201).json({ 
                 message : 'Player successfully deleted',
                 info : player

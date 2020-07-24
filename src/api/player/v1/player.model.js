@@ -26,7 +26,7 @@ Player.getAllPlayers = function (result) {
     sql.query("SELECT * FROM player", [], 
         function (err, res) {
             if(err) {
-                result(null, err);
+                result(err, null);
             }
             else {
                 result(null, res);
@@ -34,11 +34,11 @@ Player.getAllPlayers = function (result) {
         }
     );
 };
-Player.updateById = function(playerId, full_name, team, number, image, position, result){
-    sql.query("UPDATE player SET full_name = ?, team = ?, number = ?, image = ?, position = ?, number = ? WHERE player_id = ?", [full_name, team, number, image, position, number, playerId], 
+Player.updateById = function(playerId, player, result){
+    sql.query("UPDATE player SET full_name = ?, team = ?, number = ?, image = ?, position = ?, number = ? WHERE player_id = ?", [player.full_name, player.team, player.number, player.image, player.position, player.number, playerId], 
         function (err, res) {
             if(err) {
-                result(null, err);
+                result(err, null);
             }
             else{
                 result(null, res);
@@ -59,7 +59,7 @@ Player.remove = function(playerId, result){
     );
 };
 Player.add = function(player, result){
-    sql.query("INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)",
+    sql.query("INSERT INTO player VALUES (?, ?, ?, ?, ?, ?)",
         [player.playerId, player.full_name, player.team, player.number, player.image, player.position], 
         function (err, res) {
             if(err) {
