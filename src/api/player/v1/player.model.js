@@ -11,64 +11,65 @@ var Player = function(player){
     this.position = player.position;
 };
 Player.getPlayerById = function (playerId, result) {
-    sql.query("SELECT * FROM player WHERE player_id = ?", [playerId], function (err, res) {
-        if(err) {
-            console.log("error: ", err);
-            result(err, null);
+    sql.query("SELECT * FROM player WHERE player_id = ?", [playerId], 
+        function (err, res) {
+            if(err) {
+                result(err, null);
+            }
+            else{
+                result(null, res);
+            }
         }
-        else{
-            console.log('player : ', res);
-            result(null, res);
-        }
-    });
+    );
 };
 Player.getAllPlayers = function (result) {
-    sql.query("Select * from player", [], function (err, res) {
-        if(err) {
-            console.log("error: ", err);
-            result(null, err);
+    sql.query("SELECT * FROM player", [], 
+        function (err, res) {
+            if(err) {
+                result(null, err);
+            }
+            else {
+                result(null, res);
+            }
         }
-        else{
-            console.log('players : ', res);
-            result(null, res);
-        }
-    });
+    );
 };
 Player.updateById = function(playerId, full_name, team, number, image, position, result){
-    sql.query("UPDATE player SET full_name = ?, team = ?, number = ?, image = ?, position = ?, number = ? WHERE player_id = ?",
-        [full_name, team, number, image, position, number, playerId], function (err, res) {
-        if(err) {
-            console.log("error: ", err);
-            result(null, err);
+    sql.query("UPDATE player SET full_name = ?, team = ?, number = ?, image = ?, position = ?, number = ? WHERE player_id = ?", [full_name, team, number, image, position, number, playerId], 
+        function (err, res) {
+            if(err) {
+                result(null, err);
+            }
+            else{
+                result(null, res);
+            }
         }
-        else{
-            result(null, res);
-        }
-    });
+    );
 };
 Player.remove = function(playerId, result){
-    sql.query("DELETE FROM player WHERE player_id = ?", [playerId], function (err, res) {
-        if(err) {
-            console.log("error: ", err);
-            result(null, err);
+    sql.query("DELETE FROM player WHERE player_id = ?", [playerId], 
+        function (err, res) {
+            if(err) {
+                result(null, err);
+            }
+            else{
+                result(null, res);
+            }
         }
-        else{
-
-            result(null, res);
-        }
-    });
+    );
 };
 Player.add = function(player, result){
     sql.query("INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [player.playerId, player.full_name, player.team, player.number, player.image, player.position], function (err, res) {
-        if(err) {
-            console.log("error: ", err);
-            result(err, null);
+        [player.playerId, player.full_name, player.team, player.number, player.image, player.position], 
+        function (err, res) {
+            if(err) {
+                result(err, null);
+            }
+            else {
+                result(null, res);
+            }
         }
-        else{
-            result(null, res);
-        }
-    });
+    );
 };
 
 module.exports = Player;

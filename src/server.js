@@ -1,6 +1,6 @@
 const express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser');
+app = express(),
+bodyParser = require('body-parser');
 port = process.env.PORT || 3000;
 
 
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Declare Path of Routers
-var player_routes = require('./api/player/v1/player.router'); //importing routers
+var player_routes = require('./api/player/v1/player.router');
 var player_stat_routes = require('./api/stat/v1/stat.router');
 
 // Register the routes
