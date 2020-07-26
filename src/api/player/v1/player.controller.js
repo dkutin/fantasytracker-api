@@ -41,10 +41,14 @@ exports.update_player = function(req, res) {
         if (err)
             res.json(err);
         else
-            res.status(201).json({
-                status : 'Successfully Updated', 
-                info : player
-            });
+            if (player.affectedRows > 0)
+                res.status(201).json({ 
+                    message : 'Player successfully updated',
+                });
+            else
+                res.status(200).json({
+                    message : 'Player does not exist',
+                })
     });
 };
 exports.delete_player = function(req, res) {
@@ -52,9 +56,13 @@ exports.delete_player = function(req, res) {
         if (err)
             res.json(err);
         else
-            res.status(201).json({ 
-                message : 'Player successfully deleted',
-                info : player
-            });
+            if (player.affectedRows > 0)
+                res.status(201).json({ 
+                    message : 'Player successfully deleted',
+                });
+            else 
+                res.status(200).json({
+                    message : 'Player has already been deleted or does not exist',
+                })
     });
 };
