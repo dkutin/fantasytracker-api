@@ -15,23 +15,15 @@ exports.list_all_players = function(req, res) {
 };
 exports.add_player = function(req, res) {
     var player = new Player(req.body);
-
-    if (!player.full_name || !player.image || !player.number || !player.playerId || !player.position || !player.team){
-        res.status(400).json({
-            error: true,
-            message: 'Please provide valid player fields'
-        });
-    } else {
-        Player.add(player, function(err, players) {
-            if (err)
-                res.json(err);
-            else
-                res.json({
-                    status : 'Successfully added', 
-                    response : players
-                });
-        });
-    }
+    Player.add(player, function(err, players) {
+        if (err)
+            res.json(err);
+        else
+            res.status(201).json({
+                status : 'Successfully added', 
+                response : players
+            });
+    });
 };
 exports.get_player_by_id = function(req, res) {
     Player.getPlayerById(req.params.playerId, function(err, player) {
@@ -49,20 +41,28 @@ exports.update_player = function(req, res) {
         if (err)
             res.json(err);
         else
-            res.status(201).json({
-                status : 'Successfully Updated', 
-                info : player
-            });
+            if (player.affectedRows > 0)
+                res.status(201).json({ 
+                    message : 'Player successfully updated',
+                });
+            else
+                res.status(200).json({
+                    message : 'Player does not exist',
+                })
     });
 };
 exports.delete_player = function(req, res) {
     Player.remove(req.params.playerId, function(err, player) {
         if (err)
             res.json(err);
-        else 
-            res.status(201).json({ 
-                message : 'Player successfully deleted',
-                info : player
-            });
+        else
+            if (player.affectedRows > 0)
+                res.status(201).json({ 
+                    message : 'Player successfully deleted',
+                });
+            else 
+                res.status(200).json({
+                    message : 'Player has already been deleted or does not exist',
+                })
     });
 };

@@ -1,0 +1,234 @@
+openapi: 3.0.0
+info:
+  title: API designed for predicting Yahoo! NBA fantasy stacks in a scored league.
+  description: Fantasytracker API
+  contact:
+    email: fantasytracker.app@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/dkutin/fantasytracker/1.0.0
+  description: SwaggerHub
+- url: https://fantasytracker.dmitrykutin.com
+  description: Production Server
+- url: https://localhost:3000
+  description: Development Server
+tags:
+- name: players
+  description: Player endpoints retrieve player object
+- name: stats
+  description: Player stat endpoints retrieve stat object
+paths:
+  /api/v1/players/{playerId}:
+    get:
+      tags: 
+        - players
+      summary: Get info for specific player
+      description: Retrieves info for a specified player
+      operationId: getPlayer
+      parameters: [
+        $ref: '#/components/parameters/playerId'
+        ]
+      responses:
+        "200":
+          description: Successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+    post:
+      tags:
+        - players
+      description: updates a player object
+      operationId: updatePlayer
+      parameters: [
+        $ref: '#/components/parameters/playerId'
+      ]
+      requestBody:
+        description: Requires all player fields to create a new object
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Player'
+        required: true
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "401":
+          description: Not Authorized
+    delete:
+      tags:
+        - players
+      description: deletes a player object
+      operationId: deletePlayer
+      parameters: [
+        $ref: '#/components/parameters/playerId'
+      ]
+      responses:
+        '201':
+          description: "Successfully Deleted"
+        '200':
+          description: "Does not exist or has already been removed"
+  /api/v1/players:
+    get:
+      tags:
+      - players
+      summary: Get all players info
+      description: Gets all player info in player object
+      operationId: getPlayers
+      responses:
+        "200":
+          description: Successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+    post:
+      tags:
+      - players
+      description: Adds a player object
+      operationId: addPlayer
+      requestBody:
+        description: Requires all player fields to update a player object
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Player'
+        required: true
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "401":
+          description: Not Authorized
+components:
+  parameters: 
+    playerId:
+      in: path
+      name: playerId
+      description: PlayerId of player to retrieve
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 999
+        maximum: 9999
+        default: null
+    week:
+      in: path
+      name: week
+      description: Player stats for a current week
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 99
+        default: 20
+  schemas:
+    PlayerResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "Success"
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+          example:
+            status: Success
+            response:
+              player_id: 3704
+              full_name: LeBron James
+              team: LAL
+              number: 23
+              image: https://s.yimg.com/iu/api/res/1.2/p_YxGW7TaIRxz3p5Po6ZaQ--~C/YXBwaWQ9eXNwb3J0cztjaD0yMzM2O2NyPTE7Y3c9MTc5MDtkeD04NTc7ZHk9MDtmaT11bGNyb3A7aD02MDtxPTEwMDt3PTQ2/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png
+              position: PG,SF,PF
+    Player:
+      type: object
+      required:
+      - full_name
+      - image
+      - number
+      - playerId
+      - position
+      - team
+      properties:
+        playerId:
+          maxLength: 4
+          minLength: 4
+          type: integer
+          example: 4152
+        full_name:
+          type: string
+          example: Kyle Lowry
+        team:
+          maxLength: 3
+          minLength: 3
+          type: string
+          example: Tor
+        number:
+          type: integer
+          example: 7
+        image:
+          type: string
+          format: url
+          example: https://s.yimg.com/iu/api/res/1.2/1hcKyTzb7eJmazwE1qVufQ--~C/YXBwaWQ9eXNwb3J0cztjaD0yMzM2O2NyPTE7Y3c9MTc5MDtkeD04NTc7ZHk9MDtmaT11bGNyb3A7aD02MDtxPTEwMDt3PTQ2/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/02082020/3706.png
+        position:
+          type: string
+          example: PG
+    Stat:
+      required:
+      - ast
+      - blk
+      - gp
+      - playerId
+      - pts
+      - reb
+      - stl
+      - trn
+      - week
+      type: object
+      properties:
+        playerId:
+          maxLength: 4
+          minLength: 4
+          type: integer
+          description: Yahoo! Fantasy player id
+          example: 4152
+        week:
+          maxLength: 2
+          minLength: 1
+          type: integer
+          description: Week to add data for
+          format: url
+        pts:
+          type: integer
+          description: Total points for the season
+          example: 12
+        ast:
+          type: integer
+          description: Total assists for the season
+          example: 12
+        reb:
+          type: integer
+          description: Total rebounds for the season
+          example: 12
+        stl:
+          type: integer
+          description: Total steals for the season
+          example: 12
+        blk:
+          type: integer
+          description: Total blocks for the season
+          example: 12
+        trn:
+          type: integer
+          description: Total turnovers for the season
+          example: 12
