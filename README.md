@@ -1,5 +1,5 @@
 # Fantasy Tracker API
-https://dmitrykutin.com/fantasytracker-api/
+https://dmitrykutin.com/fantasytracker-api/ <br/> <br/>
 An NBA Yahoo! Fantasy Tracker API wrapper that scores and analysis players.
 ## Available Services
 Description of services can be found at https://app.swaggerhub.com/apis/dkutin/fantasytracker/1.0.0
