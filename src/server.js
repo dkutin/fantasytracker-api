@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 new OpenApiValidator({
-    apiSpec: 'openapi.yaml',
+    apiSpec: spec,
     // validateResponses: true,
     validateRequests: true
   }).install(app)
@@ -30,5 +30,6 @@ new OpenApiValidator({
               errors: err.errors,
             });
           });
-        http.createServer(app).listen(3000);
+        http.createServer(app).listen(port);
+        console.log("Successfully Started!");
     })

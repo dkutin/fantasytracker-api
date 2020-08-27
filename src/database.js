@@ -1,13 +1,16 @@
 'user strict';
 
 var mysql = require('mysql');
+var dotenv = require('dotenv')
+
+dotenv.config();
 
 //local mysql db connection
 var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'admin',
-    database : 'fantasytracker_db'
+    socketPath: `/cloudsql/${process.env.APP_DB_HOST}`, // The fix
+    user     : process.env.USERNAME,
+    password : process.env.PASSWORD,
+    database : process.env.DATABASE
 });
 
 connection.connect(function(err) {

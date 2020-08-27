@@ -1,4 +1,5 @@
 node_modules/
 .idea/
 *.code-workspace
-.env
+.env.development
+app.yaml
